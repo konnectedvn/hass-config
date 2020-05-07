@@ -1,0 +1,23 @@
+#SYSTEM_LOG config, it's activated with Front-end by default but not set to fire event
+#/config/configuration.yaml
+system_log:
+  fire_event: true
+
+#AUTOMATION to send telegram message when Failed Login occurred
+#/config/automations.yaml
+- id: '1588815022543'
+  alias: Notify When Failed Login Occurred
+  description: send Telegram notificaiton of Login Failed
+  trigger:
+  - event_data:
+      level: WARNING
+      name: 'homeassistant.components.http.ban'
+    event_type: system_log_event
+    platform: event
+  condition: []
+  action:
+  #Send to Telegram or any notify platform
+  - data_template:
+      message: '{{trigger.event.data.message}}'
+      title: 😱Failed Login!
+    service: telegram_bot.send_message
