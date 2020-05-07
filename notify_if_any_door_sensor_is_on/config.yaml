@@ -1,0 +1,43 @@
+#SET a list of all binary_sensor.wyzesense with device_class: door in 'on' state
+
+#input_text to store the list
+#/config/configuration.yaml
+input_text:
+  wyzesense_door:
+    max: 255
+
+#script to generate the list
+#/config/scripts.yaml    
+'158881124929869': #whatever id
+  alias: Output list of wyze door sensors which is on
+  sequence:
+  - data_template:
+      value: >-
+        {% for state in states.binary_sensor -%}
+        {% if 'wyzesense' in state.entity_id and is_state(state.entity_id,'on') -%}
+        {{state.name}}, #get name, should keep it short. Leave it with ',' at the end, still fine for voice
+        {%- endif -%}
+        {%- endfor %}
+    entity_id: input_text.wyzesense_door
+    service: input_text.set_value
+    
+#AUTOMATION to check and notify at 23PM
+#For Node-Red, call script then check the list
+
+#/config/automations.yaml
+- id: '1588812353768'
+  alias: Goodnight check
+  description: at 23PM notify if any wyze door sensor is on
+  trigger:
+  - at: '23:00:00'
+    platform: time
+  condition: []
+  action:
+  - data: {}
+    service: script.158881124929869
+  - condition: template
+    value_template: '{{ states(''input_text.wyzesense_door'')|length > 0 }}'
+  - data:
+      message: 'Door still opens: {{states(''input_text.wyzesense_door'')}}'
+    entity_id: media_player.bedroom_speaker
+    service: tts.google_translate_say
