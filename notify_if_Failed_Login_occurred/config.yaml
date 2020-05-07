@@ -21,3 +21,8 @@ system_log:
       message: '{{trigger.event.data.message}}'
       title: 😱Failed Login!
     service: telegram_bot.send_message
+    
+  #Option: dismiss notification on Front-end
+#  - service: persistent_notification.dismiss
+#    data:
+#      notification_id: http_login
