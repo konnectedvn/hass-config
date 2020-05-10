@@ -37,7 +37,7 @@ input_text:
     service: script.158881124929869
   - condition: template
     value_template: '{{ states(''input_text.wyzesense_door'')|length > 0 }}'
-  - data:
+  - data_template:
       message: 'Door still opens: {{states(''input_text.wyzesense_door'')}}'
     entity_id: media_player.bedroom_speaker
     service: tts.google_translate_say
