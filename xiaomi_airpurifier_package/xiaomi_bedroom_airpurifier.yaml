@@ -1,0 +1,135 @@
+###FIND & REPLACE ALL bedroom_air_purifier with your entity NAME###
+##Code was shared by MickL in Home Assistant Community
+sensor:
+  # Xiaomi Air Purifier 2S
+  - platform: template
+    sensors:
+      bedroom_air_purifier_temp:
+        friendly_name: "Temperature"
+        value_template: "{{ state_attr('fan.bedroom_air_purifier', 'temperature') }}"
+        unit_of_measurement: "°C"
+        device_class: "temperature"
+      bedroom_air_purifier_humidity:
+        friendly_name: "Humidity"
+        value_template: "{{ state_attr('fan.bedroom_air_purifier', 'humidity') }}"
+        unit_of_measurement: "%"
+        device_class: "humidity"
+      bedroom_air_purifier_air_quality_pm25:
+        friendly_name: "Air quality"
+        value_template: "{{ state_attr('fan.bedroom_air_purifier', 'aqi') }}"
+        unit_of_measurement: "μg/m³"
+        icon_template: "mdi:weather-fog"
+      bedroom_air_purifier_speed:
+        friendly_name: "Fan speed"
+        value_template: "{{ state_attr('fan.bedroom_air_purifier', 'motor_speed') }}"
+        unit_of_measurement: "rpm"
+        icon_template: "mdi:speedometer"
+      bedroom_air_purifier_filter_remaining:
+        friendly_name: "Filter remaining"
+        value_template: "{{ state_attr('fan.bedroom_air_purifier', 'filter_life_remaining') }}"
+        unit_of_measurement: "%"
+        icon_template: "mdi:heart-outline"
+
+switch:
+  # Xiaomi Air Purifier 2S
+  - platform: template
+    switches:
+      bedroom_air_purifier_led:
+        friendly_name: "LED"
+        value_template: "{{ is_state_attr('fan.bedroom_air_purifier', 'led', true) }}"
+        turn_on:
+          service: xiaomi_miio.fan_set_led_on
+          data:
+            entity_id: fan.bedroom_air_purifier
+        turn_off:
+          service: xiaomi_miio.fan_set_led_off
+          data:
+            entity_id: fan.bedroom_air_purifier
+        icon_template: "mdi:lightbulb-outline"
+      bedroom_air_purifier_child_lock:
+        friendly_name: "Child lock"
+        value_template: "{{ is_state_attr('fan.bedroom_air_purifier', 'child_lock', true) }}"
+        turn_on:
+          service: xiaomi_miio.fan_set_child_lock_on
+          data:
+            entity_id: fan.bedroom_air_purifier
+        turn_off:
+          service: xiaomi_miio.fan_set_child_lock_off
+          data:
+            entity_id: fan.bedroom_air_purifier
+        icon_template: "mdi:lock-outline"
+      bedroom_air_purifier_buzzer:
+        friendly_name: "Buzzer"
+        value_template: "{{ is_state_attr('fan.bedroom_air_purifier', 'buzzer', true) }}"
+        turn_on:
+          service: xiaomi_miio.fan_set_buzzer_on
+          data:
+            entity_id: fan.bedroom_air_purifier
+        turn_off:
+          service: xiaomi_miio.fan_set_buzzer_off
+          data:
+            entity_id: fan.bedroom_air_purifier
+        icon_template: "mdi:volume-high"
+  
+input_select:
+  # Xiaomi Air Purifier 2S
+  bedroom_air_purifier_mode:
+    name: Mode
+    options:
+      - Auto
+      - Silent
+      - Favorite
+    icon: "mdi:animation-outline"
+
+input_number:
+  # Xiaomi Air Purifier 2S
+  bedroom_air_purifier_favorite_level:
+    name: "Favorite level"
+    initial: 0
+    min: 0
+    max: 14
+    step: 1
+    icon: "mdi:weather-windy"
+
+automation:
+    # Xiaomi Air Purifier 2S
+    - id: '9231979konnectedvn231298'
+      alias: Air Purifier mode change
+      trigger:
+        entity_id: input_select.bedroom_air_purifier_mode
+        platform: state
+      action:
+        service: fan.set_speed
+        data_template:
+          entity_id: fan.bedroom_air_purifier
+          speed: '{{ states.input_select.bedroom_air_purifier_mode.state }}'
+    - id: '92332179konnectedvn231567'
+      alias: Air Purifier mode changed
+      trigger:
+        platform: state
+        entity_id: fan.bedroom_air_purifier
+      action:
+        service: input_select.select_option
+        entity_id: input_select.bedroom_air_purifier_mode
+        data_template:
+          option: '{{ states.fan.bedroom_air_purifier.attributes.speed }}'
+    - id: '3467979konnectedvn2365698'
+      alias: Air Purifier favorite level change
+      trigger:
+        entity_id: input_number.bedroom_air_purifier_favorite_level
+        platform: state
+      action:
+        service: xiaomi_miio.fan_set_favorite_level
+        data_template:
+          entity_id: fan.bedroom_air_purifier
+          level: '{{ states.input_number.bedroom_air_purifier_favorite_level.state | int }}'
+    - id: '9243249konnectedvn234668'
+      alias: Air Purifier favorite level changed
+      trigger:
+        platform: state
+        entity_id: fan.bedroom_air_purifier
+      action:
+        service: input_number.set_value
+        entity_id: input_number.bedroom_air_purifier_favorite_level
+        data_template:
+          value: '{{ states.fan.bedroom_air_purifier.attributes.favorite_level }}'

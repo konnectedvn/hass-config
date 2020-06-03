@@ -1,0 +1,16 @@
+- id: '15590432423526184'
+  alias: Hass Notify At Startup
+  description: 'Thông báo sau khi Hass khởi động xong'
+  trigger:
+  - event: start
+    platform: homeassistant
+  condition: []
+  action:
+  - service: notify.mobile_app_ds_iphone
+    data_template:
+      title: 'Home Assistant: Khởi động xong'
+      message: 'HASS has just started since {{now()}}'
+  - data_template:
+      title: 'Home Assistant: Khởi động xong'
+      message: 'HASS has just started since {{now()}}'
+    service: telegram_bot.send_message
