@@ -1,0 +1,34 @@
+###FIND & REPLACE ALL bedroom_air_purifier with your entity NAME###
+##Code was shared by MickL in Home Assistant Community
+type: horizontal-stack
+cards:
+  - type: entities
+    title: Bedroom Air Purifier
+    show_header_toggle: false
+    entities:
+      - entity: fan.bedroom_air_purifier
+        name: Power
+      - entity: input_select.bedroom_air_purifier_mode
+      - entity: input_number.bedroom_air_purifier_favorite_level
+        name: Fav Level
+      - entity: switch.bedroom_air_purifier_child_lock
+      - entity: switch.bedroom_air_purifier_led
+      - entity: switch.bedroom_air_purifier_buzzer
+      - entity: sensor.bedroom_air_purifier_speed
+      - entity: sensor.bedroom_air_purifier_filter_remaining
+  - type: vertical-stack
+    cards:
+      - entities:
+          - entity: sensor.bedroom_air_purifier_air_quality_pm25
+          - entity: sensor.bedroom_air_purifier_temp
+          - entity: sensor.bedroom_air_purifier_humidity
+        show_header_toggle: false
+        theme: default
+        title: Environment
+        type: entities
+      - entities:
+          - sensor.bedroom_air_purifier_air_quality_pm25
+        hours_to_show: 48
+        refresh_interval: 60
+        title: Air quality
+        type: history-graph
