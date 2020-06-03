@@ -1,5 +1,6 @@
 ###FIND & REPLACE ALL bedroom_air_purifier with your entity NAME###
 ##Code was shared by MickL in Home Assistant Community
+##Modified by duytruong@konnected.vn
 sensor:
   # Xiaomi Air Purifier 2S
   - platform: template
@@ -94,7 +95,7 @@ input_number:
 automation:
     # Xiaomi Air Purifier 2S
     - id: '9231979konnectedvn231298'
-      alias: Air Purifier mode change
+      alias: Bedroom Air Purifier mode change
       trigger:
         entity_id: input_select.bedroom_air_purifier_mode
         platform: state
@@ -104,17 +105,19 @@ automation:
           entity_id: fan.bedroom_air_purifier
           speed: '{{ states.input_select.bedroom_air_purifier_mode.state }}'
     - id: '92332179konnectedvn231567'
-      alias: Air Purifier mode changed
+      alias: Bedroom Air Purifier mode changed
       trigger:
         platform: state
         entity_id: fan.bedroom_air_purifier
       action:
-        service: input_select.select_option
+      - condition: template
+        value_template: '{{state_attr(''fan.bedroom_air_purifier'',''speed'') is not none }}'
+      - service: input_select.select_option
         entity_id: input_select.bedroom_air_purifier_mode
         data_template:
-          option: '{{ states.fan.bedroom_air_purifier.attributes.speed }}'
+          option: '{{ state_attr(''fan.bedroom_air_purifier'',''speed'') }}'
     - id: '3467979konnectedvn2365698'
-      alias: Air Purifier favorite level change
+      alias: Bedroom Air Purifier favorite level change
       trigger:
         entity_id: input_number.bedroom_air_purifier_favorite_level
         platform: state
@@ -122,9 +125,9 @@ automation:
         service: xiaomi_miio.fan_set_favorite_level
         data_template:
           entity_id: fan.bedroom_air_purifier
-          level: '{{ states.input_number.bedroom_air_purifier_favorite_level.state | int }}'
+          level: '{{ states(''input_number.bedroom_air_purifier_favorite_level'') | int }}'
     - id: '9243249konnectedvn234668'
-      alias: Air Purifier favorite level changed
+      alias: Bedroom Air Purifier favorite level changed
       trigger:
         platform: state
         entity_id: fan.bedroom_air_purifier
@@ -132,4 +135,4 @@ automation:
         service: input_number.set_value
         entity_id: input_number.bedroom_air_purifier_favorite_level
         data_template:
-          value: '{{ states.fan.bedroom_air_purifier.attributes.favorite_level }}'
+          value: '{{ state_attr(''fan.bedroom_air_purifier'',''favorite_level'') }}'
