@@ -1,0 +1,25 @@
+
+#SQL Sensor to get the amount of seconds which an entity is in lastest on state
+#Home Assistant from KonnectED.vn
+#Entity: 00:00:01 - on - 00:00:10 - off - 00:00:30 - on (current state) ---> 9 seconds (previous) on duration
+#Currently 'on' state duration is ignored (util it's off)
+#Adjust switch.test with your entity_id
+#IF you wanna to take off duration, change 'on' to 'off' and vice versa
+
+sensor:
+  - platform: sql
+    queries:
+      - name: Last on duration
+        query: "SELECT (SELECT JULIANDAY(created) FROM states
+		  WHERE entity_id='switch.test' AND state='off'
+		  ORDER BY state_id DESC LIMIT 1) - (
+		  SELECT JULIANDAY(created) FROM states
+		  WHERE entity_id='switch.test' AND state = 'on'
+		  AND (created < (SELECT created FROM states
+		  WHERE entity_id='switch.test'  AND state = 'off' ORDER BY state_id DESC LIMIT 1))
+		  ORDER BY state_id DESC LIMIT 1) as days
+		  FROM states LIMIT 1;"
+        column: 'days'
+        unit_of_measurement: seconds
+        value_template: '{{ value*24*3600|round(0) }}'
+
