@@ -11,14 +11,14 @@ sensor:
     queries:
       - name: Last on duration
         query: "SELECT (SELECT JULIANDAY(created) FROM states
-		  WHERE entity_id='switch.test' AND state='off'
-		  ORDER BY state_id DESC LIMIT 1) - (
-		  SELECT JULIANDAY(created) FROM states
-		  WHERE entity_id='switch.test' AND state = 'on'
-		  AND (created < (SELECT created FROM states
-		  WHERE entity_id='switch.test'  AND state = 'off' ORDER BY state_id DESC LIMIT 1))
-		  ORDER BY state_id DESC LIMIT 1) as days
-		  FROM states LIMIT 1;"
+	    WHERE entity_id='switch.test' AND state='off'
+		ORDER BY state_id DESC LIMIT 1) - (
+		SELECT JULIANDAY(created) FROM states
+		WHERE entity_id='switch.test' AND state = 'on'
+		AND (created < (SELECT created FROM states
+		WHERE entity_id='switch.test'  AND state = 'off' ORDER BY state_id DESC LIMIT 1))
+		ORDER BY state_id DESC LIMIT 1) as days
+		FROM states LIMIT 1;"
         column: 'days'
         unit_of_measurement: seconds
         value_template: '{{ value*24*3600|round(0) }}'
