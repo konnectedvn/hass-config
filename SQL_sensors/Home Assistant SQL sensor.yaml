@@ -1,8 +1,8 @@
 
-#SQL Sensor to get the amount of seconds which an entity is in lastest on state
+#SQL Sensor to get the amount of seconds which an entity is in latest on state
 #Home Assistant from KonnectED.vn
-#Entity: 00:00:01 - on - 00:00:10 - off - 00:00:30 - on (current state) ---> 9 seconds (previous) on duration
-#Currently 'on' state duration is ignored (util it's off)
+#Entity: on@00:00:01 - off@00:00:10 - on@00:00:30 (current state) ---> 9 seconds (previous) on duration
+#Current 'on' state duration will be ignored (util it's off)
 #Adjust switch.test with your entity_id
 #IF you wanna to take off duration, change 'on' to 'off' and vice versa
 
