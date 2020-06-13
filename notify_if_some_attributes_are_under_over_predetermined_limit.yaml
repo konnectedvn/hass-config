@@ -1,0 +1,35 @@
+#Automation to send notify when one of attributes reach an lower limit (10)
+#Home Assistant from KonnectED.vn
+#Adjust vacuum.xiaomi_vacuum_cleaner with your entity_id
+#In this example, we send notification via Telegram whenever battery_level or any attributes have 'left' -
+#- in name values lower 10
+
+- id: '1592090367272969'
+  alias: Xiaomi Vacuum Maintenance Notify
+  description: Notify when Xiaomi Vacuum needs maintenance
+  trigger:
+  - entity_id: vacuum.xiaomi_vacuum_cleaner
+    platform: state
+    to: docked
+  condition:
+  - condition: template
+    value_template: >
+      {% set notify = namespace(message='') %}
+      {%- for attrs in states.vacuum.xiaomi_vacuum_cleaner.attributes|list %}
+      {%- if ('left' in attrs or 'battery_level' in attrs) and state_attr('vacuum.xiaomi_vacuum_cleaner',attrs)|int < 10 %}
+      {% set notify.list = notify.message + attrs %}
+      {%- endif %}
+      {%- endfor %}
+      {{ notify.list|length > 0 }}
+  action:
+  - data_template:
+      title: 'Home Assistant: Xiaomi Vacuum cần bảo trì'
+      parse_mode: html
+      message: >-
+        Hey dude, your Xiaomi vacuum needs your care:
+        {%- for attrs in states.vacuum.xiaomi_vacuum_cleaner.attributes|list %}
+          {%- if ('left' in attrs or 'battery_level' in attrs) and state_attr(trigger.entity_id,attrs)|int < 10 %}
+           {{attrs}}: {{state_attr(trigger.entity_id,attrs)}}
+          {%- endif %}
+        {%- endfor %}
+    service: telegram_bot.send_message
