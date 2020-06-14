@@ -16,11 +16,11 @@
     value_template: >
       {% set notify = namespace(message='') %}
       {%- for attrs in states.vacuum.xiaomi_vacuum_cleaner.attributes|list %}
-      {%- if ('left' in attrs or 'battery_level' in attrs) and state_attr('vacuum.xiaomi_vacuum_cleaner',attrs)|int < 10 %}
-      {% set notify.list = notify.message + attrs %}
+      {%- if ('left' in attrs or 'battery_level' in attrs) and state_attr(trigger.entity_id,attrs)|int < 10 %}
+      {% set notify.message = notify.message + attrs %}
       {%- endif %}
       {%- endfor %}
-      {{ notify.list|length > 0 }}
+      {{ notify.message|length > 0 }}
   action:
   - data_template:
       title: 'Home Assistant: Xiaomi Vacuum cần bảo trì'
