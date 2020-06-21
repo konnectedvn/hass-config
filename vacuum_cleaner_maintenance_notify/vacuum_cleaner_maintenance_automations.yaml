@@ -1,0 +1,87 @@
+#Home Assistant from KonnectED.vn
+
+#1_Notify when any ***_left attribute < 10 or battery_level < 10 --
+# --> meansv need replacement or battery is too low/too bad
+#alternate 'vacuum.xiaomi_vacuum_cleaner' with your vacuum entity_id
+#AND telegram_bot.send_message with your notify service
+
+#automations.yaml
+- id: '1592090367272969'
+  alias: Xiaomi Vacuum Maintenance Notify
+  description: Send notify when some parts is gonna need replacement soon
+  trigger:
+  - entity_id: vacuum.xiaomi_vacuum_cleaner
+    platform: state
+    to: docked
+  condition:
+  - condition: template
+    value_template: >
+      {% set notify = namespace(message='') %}
+      {%- for attrs in trigger.to_state.attributes|list %}
+      {%- if ('left' in attrs or 'battery_level' in attrs) and state_attr(trigger.entity_id,attrs)|int < 10 %}
+      {% set notify.message = notify.message + attrs %}
+      {%- endif %}
+      {%- endfor %}
+      {{ notify.message|length > 0 }}
+  action:
+  - data_template:
+      title: 'Home Assistant: Xiaomi Vacuum Cleaner Maintenance'
+      parse_mode: html
+      message: >-
+        Your Vacuum Cleaner need your care:
+        {%- for attrs in trigger.to_state.attributes|list %}
+          {%- if ('left' in attrs or 'battery_level' in attrs) and state_attr(trigger.entity_id,attrs)|int < 10 %}
+           {{attrs}}: {{state_attr(trigger.entity_id,attrs)}}
+          {%- endif %}
+        {%- endfor %}
+    service: telegram_bot.send_message
+
+#2_NOTIFY when total cleaned area (from last dust bin cleaning) reaches 150 square meters (based on your house condition)
+
+#configuration.yaml
+
+input_number:
+  xiaomi_vacuum_last_area:
+    name: 'Xiaomi Vacuum Total Cleaned Area From Last Operation'
+    min: 0
+    max: 20000000
+    
+#automations.yaml
+- id: '1592031833845'
+  alias: "Xiaomi Vacuum Dust Bin Clean Notify"
+  description: Notify to clean vacuum dust bin
+  - platform: state
+    entity_id: vacuum.xiaomi_vacuum_cleaner
+    from: cleaning
+  condition:
+  - condition: template
+    value_template: "{{ state_attr(trigger.entity_id,'total_cleaned_area') - states('input_number.xiaomi_vacuum_last_area')|float > 150 }}"
+  action:
+  - service: input_number.set_value
+    data_template:
+      value: "{{state_attr(trigger.entity_id,'total_cleaned_area')}}"
+      entity_id: input_number.xiaomi_vacuum_last_area
+  - data_template:
+      message: Xiaomi Vacuum Robot has cleaned 150m2 from the last dust bin cleaning.
+        Need your care.
+      title: 'Hass: Xiaomi Vacuum Maintenance'
+    service: telegram_bot.send_message
+    
+#3_NOTIFY when Vacuum got error
+
+#automations.yaml
+- id: '159203202134562'
+  alias: ' Xiaomi Vacuum Error Notify'
+  description: Notify on Vacuum Error
+  trigger:
+  - entity_id: vacuum.xiaomi_vacuum_cleaner
+    platform: state
+    from: cleaning
+    to: error
+  condition: []
+  action:
+  - data_template:
+      message: >
+        Your vacuum cleaner got error while in cleaning. Error: {{state_attr(trigger.entity_id,'error')}}.
+      title: 'Home Assistant: Xiaomi Vacuum ERROR!'
+    service: telegram_bot.send_message
