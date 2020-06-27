@@ -1,0 +1,228 @@
+#Home Assistant from KonnectED.vn
+#Template cover with estimated postition based on duration
+#RF/IR SWITCHES
+#sample RF codes
+- platform: broadlink
+  host: 192.168.1.111
+  mac: '34E6E4438F5E'
+  type: rm2_pro_plus
+  timeout: 15
+  switches:
+    work_room_blind_open:
+      friendly_name: "Work Room Blind Open"
+      command_on: 'sgBKAgsZGAwYDBcNCxkMGBgMDBkLGQsZFw0XDQsZFw0LGQsZGAwMGBgMDBgMGQsYDBkLGQwYDBgMGAwYDBgMGAwZFw0MGAwYDBgXDQwYDBgMGBcABTadMgwYGAwYDBcNDBgMGBcNDBkLGQsZFw0XDQwYFw0LGQsZGA0LGBgMDBgMGAwZCxkLGQwYDBgMGAwYDBgMGAwYGA0LGQsZCxkXDRcNFw0XDQwAAR2dMwsZFwwYDRcNCxgMGRcNCxkMGAwYFw0XDQwYGAwMGAwZFw0LGRcNCxkLGQwYCxkMGAwYDBgMGAwYDBgMGAwYGA0MGAwYDBgYDBgMFw0YDAwAAR6dMwsZFwwYDRcNCxgMGRcMDBkMGAwYGAwYDAwYGAwMGAwZFw0LGRcNCxkLGQwYCxkMGAwYDBkLGQsZCxkLGQsZFw0MGAwYDBgYDRcMGAwYDAwAAR6dMgsZFw0XDRcNDBgMGBgMDBkLGQsZFw0XDQsZFw0LGQsZGA0LGBgMDBkLGAwZCxkLGQwYDBgMGAwYDBgMGAwYGA0LGQsZDBgXDRcNFw0XDQsAAR+dMgwYFw0XDRcNDBgMGRcMDBkLGQsZFw0XDQsZFw0MGAsaFw0LGRcNCxkLGQsZCxkLGQwYDBgMGAwYDBgMGAwYGA0LGQwYCxkXDRcNFw0XDQsAAR+dMgwZFwwYDBcNDBkLGBcNDBkLGQwYFw0XDQsZFw0MGAwZFwwMGRcNCxkLGQsZCxkLGQwYDBgMGAwZCxgMGAwYGA0LGQsZDBgXDRgMGAwYDAwABdwYDBgMDBgYDAwYDBkXDQ=='
+      command_off: ''
+      #command_off: 'sgCUAAsZFw0XDgsZFg0LGgoaFw0LGRcNCxkLGQsZCxoKGgsZCxkLGQsZCxkLGQsZFw4LGRYOCxkXDQsZFw0LGRcAARmcMwsZFw0XDRcNCxoKGRcOChoLGQsZFw0XDQsZFw0LGQsaFw0LGRcNCxkLGQsZCxkLGgsZCxkLGQsZCxkLGQsZFw0MGRcNCxkXDQsZFw0LGRcABdwAAAAA'
+    work_room_blind_close:
+      friendly_name: "Work Room Blind Close"
+      command_on: 'sgA4AgwZFwwXDQwYFw0MGAwZFw0LGRcNCxkLGQsZCxkLGgsZCxkLGQsZCxkLGQsZFw4LGAwZFwwYDQsZCxkXDRcABTedMgwYFw0XDhYOCxgMGBgNCxkLGQsZFw0XDQsZFw0MGAsaFw0LGRcNCxkLGQsZCxkLGgsZCxgMGAwZCxkLGQsZFw0LGQwYGAwYDBcOFg0MGAwAAR6dMgsZFw0XDRcNCxkMGBcNDBkLGQsZFw0XDQsZFw0LGQsaFwwMGRcNCxkLGQsZCxkLGQwYDBgMGQsZCxkLGAwYGA0MGAsZFw0XDRcNFw0LGQsAASCcMwsZFw0XDRcNCxkLGRcNCxkMGAwYGA0WDgsZFwwMGAwZFw0LGRcNCxkLGQsZDBgLGgsZCxkLGQsZCxkLGQsZFw4LGQsZFw0XDBgMGA0LGAwAAR6dMwsYGA0XDBgMDBkLGRcNCxkMGAsZFw0XDQsZFw0LGQsaFw0LGRcNCxkLGQsZCxkLGgsZCxkLGQsZCxkLGQsZFw0MGAwYGAwXDhYNGAwMGQsAAR+dMgsZFw0XDRcNCxkLGRcNCxoLGQsZFw0XDQsZFw0LGQsZGAwMGBgMDBgMGQsYDBkLGQsZDBgLGQwYCxkMGAwYGA0LGQsZFw0XDRcNFw0LGQsAAR+dMwsYGA0XDRcMDBkLGRcNCxkMGAsZFw0XDQsZFw0MGAwZFw0LGRcNCxkLGQsZCxkLGgsZCxkLGQsZCxkLGQsZFw0MGAwZFw0XDBgNFw0LGQsABdw='
+      command_off: ''
+      #command_off: 'sgCUAAsZFw0XDgsZFg0LGgoaFw0LGRcNCxkLGQsZCxoKGgsZCxkLGQsZCxkLGQsZFw4LGRYOCxkXDQsZFw0LGRcAARmcMwsZFw0XDRcNCxoKGRcOChoLGQsZFw0XDQsZFw0LGQsaFw0LGRcNCxkLGQsZCxkLGgsZCxkLGQsZCxkLGQsZFw0MGRcNCxkXDQsZFw0LGRcABdwAAAAA'
+    work_room_blind_stop:
+      friendly_name: "Work Room Blind Stop"
+      command_on: 'sgCUAAsZFw0XDgsZFg0LGgoaFw0LGRcNCxkLGQsZCxoKGgsZCxkLGQsZCxkLGQsZFw4LGRYOCxkXDQsZFw0LGRcAARmcMwsZFw0XDRcNCxoKGRcOChoLGQsZFw0XDQsZFw0LGQsaFw0LGRcNCxkLGQsZCxkLGgsZCxkLGQsZCxkLGQsZFw0MGRcNCxkXDQsZFw0LGRcABdwAAAAA'
+      command_off: ''
+      #command_off: 'sgCUAAsZFw0XDgsZFg0LGgoaFw0LGRcNCxkLGQsZCxoKGgsZCxkLGQsZCxkLGQsZFw4LGRYOCxkXDQsZFw0LGRcAARmcMwsZFw0XDRcNCxoKGRcOChoLGQsZFw0XDQsZFw0LGQsaFw0LGRcNCxkLGQsZCxkLGgsZCxkLGQsZCxkLGQsZFw0MGRcNCxkXDQsZFw0LGRcABdwAAAAA'
+
+#COVER
+cover:
+ - platform: template
+    covers:
+      work_room_blind:
+        device_class: blind
+        friendly_name: "Work Room Blind"
+        open_cover:
+          service: switch.turn_on
+          data:
+            entity_id: switch.work_room_blind_open
+        close_cover:
+          service: switch.turn_on
+          data:
+            entity_id: switch.work_room_blind_close
+        stop_cover:
+          service: switch.turn_on
+          data:
+            entity_id: switch.work_room_blind_stop
+        set_cover_position:
+          service: input_number.set_value
+          data_template:
+            entity_id: input_number.work_room_blind_set_position
+            value: >
+              {{ ((position|int)*(state_attr('input_number.work_room_blind_set_position','max')|int)/100)|int }}
+        position_template: '{{ states(''input_number.work_room_blind_position'')|int*100/state_attr(''input_number.work_room_blind_position'',''max'')|int }}'
+
+#INPUT NUMBER
+input_number:
+  work_room_blind_position:
+    min: 0
+    max: 15 #Measured amount of time your blind need to switch from totally closed to completely opened
+    step: 1
+    unit_of_measurement: step
+    name: 'Work Room Blind Position'
+  work_room_blind_set_position:
+    min: 0
+    max: 15 #Measured amount of time your blind need to switch from totally closed to completely opened
+    step: 1
+    unit_of_measurement: step
+    name: 'Work Room Blind Set Position'
+
+#TIMER
+timer:
+  work_room_blind:
+    name: Work Room lind Position Control
+    duration: 1
+
+#automation.yaml
+- id: '1589366756004'
+  alias: Work Room Position Set
+  description: 'Bật công tắc tương ứng với vị trí muốn cài đặt'
+  trigger:
+  - entity_id: input_number.work_room_blind_set_position
+    platform: state
+  - entity_id: input_number.work_room_blind_position
+    platform: state
+  condition: []
+  action:
+  - data_template:
+      entity_id: >
+        {% set pos_change = states('input_number.work_room_blind_set_position')|int - states('input_number.work_room_blind_position')|int %}
+        {% if pos_change == 0 and states('input_number.work_room_blind_set_position')|int > 0 %}
+        switch.work_room_blind_stop
+        {% elif pos_change < 0 and trigger.entity_id == 'input_number.work_room_blind_set_position' %}
+        switch.work_room_blind_close
+        {% elif pos_change > 0 and trigger.entity_id == 'input_number.work_room_blind_set_position' %}
+        switch.work_room_blind_open
+        {% else %}
+        script.dummy
+        {% endif %}
+    service: homeassistant.turn_on
+- id: '2312312312312'
+  alias: Work Room Position Adjust
+  description: 'khởi động work room blind timer'
+  trigger:
+  - entity_id: switch.work_room_blind_open
+    platform: state
+    to: 'on'
+  - entity_id: switch.work_room_blind_close
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - service: timer.start
+    entity_id: timer.work_room_blind
+- id: '1588502363423558'
+  alias: Work Room Blind Timer Control
+  description: 'điều chỉnh vị trí blind dựa theo bộ đếm thời gian'
+  trigger:
+  - event_data:
+      entity_id: timer.work_room_blind
+    event_type: timer.finished
+    platform: event
+  condition:
+  - condition: or
+    conditions:
+    - condition: template
+      value_template: >
+        {{is_state('switch.work_room_blind_open','on') and states('input_number.work_room_blind_position')|int < state_attr('input_number.work_room_blind_position','max')|int }}
+    - condition: template
+      value_template: >
+        {{is_state('switch.work_room_blind_close','on') and states('input_number.work_room_blind_position')|int > state_attr('input_number.work_room_blind_position','min')|int }}
+  action:
+  - service: timer.start
+    entity_id: timer.work_room_blind
+  - service_template: >
+      {% if is_state('switch.work_room_blind_open','on') %}
+      input_number.increment
+      {% elif is_state('switch.work_room_blind_close','on') %}
+      input_number.decrement
+      {% else %}
+      script.dummy
+      {% endif %}
+    data:
+      entity_id: input_number.work_room_blind_position
+- id: '2132132132132131545'
+  alias: Work Room Blind Switch Control
+  description: 'Kiểm soát các switch'
+  trigger:
+  - entity_id: switch.work_room_blind_stop
+    platform: state
+    to: 'on'
+  - entity_id: switch.work_room_blind_open
+    platform: state
+    to: 'on'
+  - entity_id: switch.work_room_blind_close
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - service: switch.turn_off
+    data_template:
+      entity_id: >
+        {% if trigger.entity_id == 'switch.work_room_blind_stop' %}
+        switch.work_room_blind_open,switch.work_room_blind_close,switch.work_room_blind_stop
+        {% elif trigger.entity_id == 'switch.work_room_blind_open' %}
+        switch.work_room_blind_stop,switch.work_room_blind_close
+        {% else %}
+        switch.work_room_blind_open,switch.work_room_blind_stop
+        {% endif %}
+- id: '9873927423008'
+  alias: Work Room Blind Edge Position
+  description: 'Ngăn rèm đi quá vị trí đầu & cuối'
+  trigger:
+  - entity_id: switch.work_room_blind_open
+    platform: state
+    to: 'on'
+    for:
+      seconds: '{{state_attr(''input_number.work_room_blind_set_position'',''max'')|int}}'
+  - entity_id: switch.work_room_blind_close
+    platform: state
+    to: 'on'
+    for:
+      seconds: '{{state_attr(''input_number.work_room_blind_set_position'',''max'')|int}}'
+  action:
+  - service: switch.turn_on
+    entity_id: switch.work_room_blind_stop
+
+#LOVELACE MANUAL CARD
+type: vertical-stack
+cards:
+  - type: entity
+    entity: cover.work_room_blind
+  - type: entities
+    entities:
+      - entity: input_number.work_room_blind_position
+      - entity: input_number.work_room_blind_set_position
+      - entity: switch.work_room_blind_open
+      - entity: switch.work_room_blind_close
+      - entity: switch.work_room_blind_stop
+    show_header_toggle: false
+    title: Work Room Blind Check
+    
+    
+#SCRIPT to flip the blind
+#Some blinds is able to be flipped if is turned on for, about only 0.5 second, when in completely closed position.
+script:    
+  work_room_blind_glance:
+  alias: Work Room Blind Glance
+  icon: mdi:window-shutter-open
+  sequence:
+  - data:
+      value: 0
+    entity_id: input_number.work_room_blind_set_position
+    service: input_number.set_value
+  - delay: 00:00:01
+  - continue_on_timeout: false
+    timeout: 00:00:40
+    wait_template: '{{ is_state(''switch.work_room_blind_close'',''off'') }}'
+  - data: {}
+    entity_id: switch.work_room_blind_open
+    service: switch.turn_on
+  - delay:
+      milliseconds: 500
+  - data: {}
+    entity_id: switch.work_room_blind_open
+    service: switch.turn_off
+  #Prevent Hass complaining about invalid service domain error when doing automation
+  dummy:
+    alias: Do nothing
+    sequence: []
