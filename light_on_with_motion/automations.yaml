@@ -1,0 +1,33 @@
+#/config/automations.yaml
+- id: '343454543'
+  alias: Turn Light on when motion detected
+  description: Bật đèn nếu cảm biến chuyển động on, tắt khi door on
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.motion
+      from: 'off'
+      to: 'on'
+  condition: []
+  action:
+    - service: switch.turn_on
+      entity_id: switch.den_san
+    - continue_on_timeout: false
+      timeout: 00:02:00
+      wait_template: "{{is_state('binary_sensor.door','on')}}"
+    - service: switch.turn_off
+      entity_id: switch.den_san
+- id: '343454544'
+  alias: Turn Light on when motion on after door
+  description: Bật đèn nếu cảm biến chuyển động on sau door
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.door
+      from: 'off'
+      to: 'on'
+  condition: []
+  action:
+    - continue_on_timeout: false
+      timeout: 00:02:00
+      wait_template: "{{is_state('binary_sensor.motion','on')}}"
+    - service: switch.turn_on
+      entity_id: switch.den_san
