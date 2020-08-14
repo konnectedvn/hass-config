@@ -148,12 +148,12 @@ cat > "$CONFIG" <<- EOF
     "data": "${DATA_SHARE}"
 }
 EOF
-##Konnected.vn
+#Konnected.vn
 echo "[Info] Pre-set version of Supervisor component"
 echo "[Info] Modified by KonnectED.vn"
 curl -sL ${URL_UPDATER} > "${DATA_SHARE}/updater.json"
 sed -i 's/homeassistant\/{machine}/homeassistant\/${MACHINE}/g' "${DATA_SHARE}/updater.json"
-##
+#
 # Pull supervisor image
 echo "[Info] Install supervisor Docker container"
 docker pull "$HASSIO_DOCKER:$HASSIO_VERSION" > /dev/null
