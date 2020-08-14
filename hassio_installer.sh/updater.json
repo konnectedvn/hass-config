@@ -1,0 +1,17 @@
+{
+  "channel": "stable",
+  "dns": "9",
+  "homeassistant": "0.114.0",
+  "cli": "25",
+  "audio": "17",
+  "image": {
+    "homeassistant": "homeassistant/{machine}-homeassistant",
+    "supervisor": "homeassistant/{arch}-hassio-supervisor",
+    "audio": "homeassistant/{arch}-hassio-audio",
+    "cli": "homeassistant/{arch}-hassio-cli",
+    "dns": "homeassistant/{arch}-hassio-dns",
+    "multicast": "homeassistant/{arch}-hassio-multicast"
+  },
+  "supervisor": "232",
+  "multicast": "2"
+}
