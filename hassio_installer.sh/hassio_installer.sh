@@ -12,7 +12,7 @@ warn "If you want more control over your own system, run"
 warn "Home Assistant as a VM or run Home Assistant Core"
 warn "via a Docker container."
 warn ""
-warn "konnectED.vn temporarily modified version 10 May 2020"
+warn "konnectED.vn temporarily modified version 14 Aug 2020"
 
 ARCH=$(uname -m)
 DOCKER_BINARY=/usr/bin/docker
@@ -25,7 +25,7 @@ URL_BIN_APPARMOR="https://raw.githubusercontent.com/home-assistant/supervised-in
 URL_SERVICE_HASSIO="https://raw.githubusercontent.com/home-assistant/supervised-installer/master/files/hassio-supervisor.service"
 URL_SERVICE_APPARMOR="https://raw.githubusercontent.com/home-assistant/supervised-installer/master/files/hassio-apparmor.service"
 URL_APPARMOR_PROFILE="https://version.home-assistant.io/apparmor.txt"
-
+URL_UPDATER="https://github.com/konnectedvn/hass-config/blob/master/hassio_installer.sh/updater.json"
 # Check env
 command -v systemctl > /dev/null 2>&1 || error "Only systemd is supported!"
 command -v docker > /dev/null 2>&1 || error "Please install docker first"
@@ -148,6 +148,10 @@ cat > "$CONFIG" <<- EOF
     "data": "${DATA_SHARE}"
 }
 EOF
+##Konnected.vn
+echo "[Info] Pre-set version of Supervisor component"
+echo "[Info] Modified by KonnectED.vn"
+curl -sL ${URL_UPDATER} > "${DATA_SHARE}/updater.json"
 
 ##
 # Pull supervisor image
