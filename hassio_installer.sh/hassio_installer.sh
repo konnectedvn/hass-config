@@ -123,6 +123,9 @@ esac
 
 if [ -z "${HOMEASSISTANT_DOCKER}" ]; then
     error "Found no Home Assistant Docker images for this host!"
+    error "uname -m to get machine structure"
+    error "for x86_64 use -m qemux86-64"
+    error "https://konnected.vn/home-assistant/home-assistant-cai-dat-tren-docker-2020-03-20#ftoc-chay-script-cai-dat-voi-tuy-chon"
 fi
 
 if [[ ! "intel-nuc odroid-c2 odroid-n2 odroid-xu qemuarm qemuarm-64 qemux86 qemux86-64 raspberrypi raspberrypi2 raspberrypi3 raspberrypi4 raspberrypi3-64 raspberrypi4-64 tinker" = *"${MACHINE}"* ]]; then
