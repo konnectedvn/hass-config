@@ -13,5 +13,5 @@
     "multicast": "homeassistant/{arch}-hassio-multicast"
   },
   "supervisor": "235",
-  "multicast": "2"
+  "multicast": "3"
 }
