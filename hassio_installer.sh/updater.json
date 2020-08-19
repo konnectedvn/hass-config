@@ -12,6 +12,6 @@
     "dns": "homeassistant/{arch}-hassio-dns",
     "multicast": "homeassistant/{arch}-hassio-multicast"
   },
-  "supervisor": "234",
+  "supervisor": "235",
   "multicast": "2"
 }
