@@ -19,6 +19,7 @@ ARCH=$(uname -m)
 DOCKER_BINARY=/usr/bin/docker
 DOCKER_REPO=homeassistant
 DOCKER_SERVICE=docker.service
+DOCKER_DAEMON_CONFIG=/etc/docker/daemon.json
 URL_VERSION="https://version.home-assistant.io/stable.json"
 URL_HA="https://raw.githubusercontent.com/home-assistant/supervised-installer/master/files/ha"
 URL_BIN_HASSIO="https://raw.githubusercontent.com/home-assistant/supervised-installer/master/files/hassio-supervisor"
