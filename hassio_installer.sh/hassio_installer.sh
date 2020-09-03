@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
+function info { echo -e "[Info] $*"; }
 function error { echo -e "[Error] $*"; exit 1; }
 function warn  { echo -e "[Warning] $*"; }
 
@@ -42,12 +43,35 @@ if systemctl list-unit-files ModemManager.service | grep enabled; then
     warn "ModemManager service is enabled. This might cause issue when using serial devices."
 fi
 
-# Detect if running on snapped docker
-if snap list docker >/dev/null 2>&1; then
-    DOCKER_BINARY=/snap/bin/docker
-    DATA_SHARE=/root/snap/docker/common/hassio
-    CONFIG=$DATA_SHARE/hassio.json
-    DOCKER_SERVICE="snap.docker.dockerd.service"
+# Detect wrong docker logger config
+if [ ! -f "$DOCKER_DAEMON_CONFIG" ]; then
+  # Write default configuration
+  info "Creating default docker deamon configuration $DOCKER_DAEMON_CONFIG"
+  cat > "$DOCKER_DAEMON_CONFIG" <<- EOF
+    {
+        "log-driver": "journald",
+        "storage-driver": "overlay2"
+    }
+EOF
+  # Restart Docker service
+  info "Restarting docker service"
+  systemctl restart "$DOCKER_SERVICE"
+else
+  STORRAGE_DRIVER=$(docker info -f "{{json .}}" | jq -r -e .Driver)
+  LOGGING_DRIVER=$(docker info -f "{{json .}}" | jq -r -e .LoggingDriver)
+  if [[ "$STORRAGE_DRIVER" != "overlay2" ]]; then 
+    warn "Docker is using $STORRAGE_DRIVER and not 'overlay2' as the storrage driver, this is not supported."
+  fi
+  if [[ "$LOGGING_DRIVER"  != "journald" ]]; then 
+    warn "Docker is using $LOGGING_DRIVER and not 'journald' as the logging driver, this is not supported."
+  fi
+fi
+
+# Check dmesg access
+if [[ "$(sysctl --values kernel.dmesg_restrict)" != "0" ]]; then
+    info "Fix kernel dmesg restriction"
+    echo 0 > /proc/sys/kernel/dmesg_restrict
+    echo "kernel.dmesg_restrict=0" >> /etc/sysctl.conf
 fi
 
 # Parse command line parameters
