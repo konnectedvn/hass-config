@@ -13,7 +13,7 @@ warn "If you want more control over your own system, run"
 warn "Home Assistant as a VM or run Home Assistant Core"
 warn "via a Docker container."
 warn ""
-warn "konnectED.vn modified version 14 Aug 2020"
+warn "konnectED.vn modified version 03 Sep 2020"
 
 ARCH=$(uname -m)
 DOCKER_BINARY=/usr/bin/docker
