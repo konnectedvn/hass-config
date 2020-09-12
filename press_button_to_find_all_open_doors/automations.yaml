@@ -1,0 +1,32 @@
+# /config/automations.yaml
+- id: '4424236903672729'
+  alias: 'Open door notify when button pressed'
+  description: 'Thông báo các cửa đang mở khi ấn nút'
+  trigger:
+  - platform: state
+    entity_id: 
+    to: 'on'
+  condition:
+  - data_template:
+      message: >
+        {%- set open_door = states.binary_sensor|selectattr('state','eq','on')|selectattr('attributes.device_class','eq','door')|list
+        -%}
+    	{% if open_door|count > 0 %}
+          {% for door in open_door -%}
+          {{door.name}},
+          {% endfor %}
+        {% else %}
+          no door
+        {% endif %}
+        and
+        {%- set open_window = states.binary_sensor|selectattr('state','eq','on')|selectattr('attributes.device_class','eq','windows')|list
+        -%}
+    	{% if open_window|count > 0 %}
+          {% for window in open_window -%}
+          {{window.name}},
+          {% endfor %}
+        {% else %}
+          no window
+        {% endif %} are open.
+      entity_id: media_player.google_mini
+    service: tts.google_say
