@@ -10,8 +10,10 @@
     "audio": "homeassistant/{arch}-hassio-audio",
     "cli": "homeassistant/{arch}-hassio-cli",
     "dns": "homeassistant/{arch}-hassio-dns",
-    "multicast": "homeassistant/{arch}-hassio-multicast"
+    "multicast": "homeassistant/{arch}-hassio-multicast",
+    "observer": "homeassistant/{arch}-hassio-observer"
   },
   "supervisor": "243",
-  "multicast": "3"
+  "multicast": "3",
+  "observer": "3"
 }
