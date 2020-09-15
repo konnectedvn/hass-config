@@ -6,7 +6,8 @@
   - platform: state
     entity_id: 
     to: 'on'
-  condition:
+  condition: []
+  action:
   - data_template:
       message: >
         {%- set open_door = states.binary_sensor|selectattr('state','eq','on')|selectattr('attributes.device_class','eq','door')|list
