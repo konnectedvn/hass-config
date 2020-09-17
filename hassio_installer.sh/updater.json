@@ -13,7 +13,7 @@
     "multicast": "homeassistant/{arch}-hassio-multicast",
     "observer": "homeassistant/{arch}-hassio-observer"
   },
-  "supervisor": "244",
+  "supervisor": "245",
   "multicast": "3",
   "observer": "3"
 }
