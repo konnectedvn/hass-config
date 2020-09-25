@@ -13,19 +13,20 @@ warn "If you want more control over your own system, run"
 warn "Home Assistant as a VM or run Home Assistant Core"
 warn "via a Docker container."
 warn ""
-warn "konnectED.vn modified version 03 Sep 2020"
+warn "konnectED.vn modified version 25 Sep 2020"
 
 ARCH=$(uname -m)
 DOCKER_BINARY=/usr/bin/docker
 DOCKER_REPO=homeassistant
 DOCKER_SERVICE=docker.service
 DOCKER_DAEMON_CONFIG=/etc/docker/daemon.json
+URL_RAW_BASE="https://raw.githubusercontent.com/home-assistant/supervised-installer/master/files"
 URL_VERSION="https://version.home-assistant.io/stable.json"
-URL_HA="https://raw.githubusercontent.com/home-assistant/supervised-installer/master/files/ha"
-URL_BIN_HASSIO="https://raw.githubusercontent.com/home-assistant/supervised-installer/master/files/hassio-supervisor"
-URL_BIN_APPARMOR="https://raw.githubusercontent.com/home-assistant/supervised-installer/master/files/hassio-apparmor"
-URL_SERVICE_HASSIO="https://raw.githubusercontent.com/home-assistant/supervised-installer/master/files/hassio-supervisor.service"
-URL_SERVICE_APPARMOR="https://raw.githubusercontent.com/home-assistant/supervised-installer/master/files/hassio-apparmor.service"
+URL_HA="${URL_RAW_BASE}/ha"
+URL_BIN_HASSIO="${URL_RAW_BASE}/hassio-supervisor"
+URL_BIN_APPARMOR="${URL_RAW_BASE}/hassio-apparmor"
+URL_SERVICE_HASSIO="${URL_RAW_BASE}/hassio-supervisor.service"
+URL_SERVICE_APPARMOR="${URL_RAW_BASE}/hassio-apparmor.service"
 URL_APPARMOR_PROFILE="https://version.home-assistant.io/apparmor.txt"
 URL_UPDATER="https://raw.githubusercontent.com/konnectedvn/hass-config/master/hassio_installer.sh/updater.json"
 # Check env
@@ -195,9 +196,9 @@ curl -sL ${URL_BIN_HASSIO} > "${PREFIX}/sbin/hassio-supervisor"
 curl -sL ${URL_SERVICE_HASSIO} > "${SYSCONFDIR}/systemd/system/hassio-supervisor.service"
 
 sed -i "s,%%HASSIO_CONFIG%%,${CONFIG},g" "${PREFIX}"/sbin/hassio-supervisor
-sed -i -e "s,%%DOCKER_BINARY%%,${DOCKER_BINARY},g" \
-       -e "s,%%DOCKER_SERVICE%%,${DOCKER_SERVICE},g" \
-       -e "s,%%HASSIO_BINARY%%,${PREFIX}/sbin/hassio-supervisor,g" \
+sed -i -e "s,%%BINARY_DOCKER%%,${DOCKER_BINARY},g" \
+       -e "s,%%SERVICE_DOCKER%%,${DOCKER_SERVICE},g" \
+       -e "s,%%BINARY_HASSIO%%,${PREFIX}/sbin/hassio-supervisor,g" \
        "${SYSCONFDIR}/systemd/system/hassio-supervisor.service"
 
 chmod a+x "${PREFIX}/sbin/hassio-supervisor"
