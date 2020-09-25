@@ -97,8 +97,6 @@ curl -sL "${URL_NM_CONF}" > "${FILE_NM_CONF}"
 if [ ! -f "$FILE_NM_CONNECTION" ]; then
     curl -sL "${URL_NM_CONNECTION}" > "${FILE_NM_CONNECTION}"
 fi
-info "Restarting NetworkManager"
-systemctl restart "${SERVICE_NM}"
 
 # Parse command line parameters
 while [[ $# -gt 0 ]]; do
@@ -266,3 +264,7 @@ info
 warn "You may need to reboot the system to install Core"
 info "docker ps -a"
 info " to find out if Core is installed or not"
+
+info "Restarting NetworkManager"
+info "Connection maybe lost! [broken-pipe] etc. Don't worry, just reconnect.'"
+systemctl restart "${SERVICE_NM}"
