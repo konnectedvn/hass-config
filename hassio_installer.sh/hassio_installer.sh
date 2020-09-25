@@ -14,14 +14,28 @@ warn "Home Assistant as a VM or run Home Assistant Core"
 warn "via a Docker container."
 warn ""
 warn "konnectED.vn modified version 25 Sep 2020"
+info ""
+info "Original script:"
+info "https://github.com/home-assistant/supervised-installer"
 
 ARCH=$(uname -m)
+info "Your server structure: ${ARCH}"
+
+IP_ADDRESS=$(hostname -I | awk '{ print $1 }')
+
 DOCKER_BINARY=/usr/bin/docker
 DOCKER_REPO=homeassistant
-DOCKER_SERVICE=docker.service
+SERVICE_DOCKER=docker.service
+SERVICE_NM="NetworkManager.service"
 DOCKER_DAEMON_CONFIG=/etc/docker/daemon.json
+
+FILE_NM_CONF="/etc/NetworkManager/NetworkManager.conf"
+FILE_NM_CONNECTION="/etc/NetworkManager/system-connections/default"
+
 URL_RAW_BASE="https://raw.githubusercontent.com/home-assistant/supervised-installer/master/files"
 URL_VERSION="https://version.home-assistant.io/stable.json"
+URL_NM_CONF="${URL_RAW_BASE}/NetworkManager.conf"
+URL_NM_CONNECTION="${URL_RAW_BASE}/system-connection-default"
 URL_HA="${URL_RAW_BASE}/ha"
 URL_BIN_HASSIO="${URL_RAW_BASE}/hassio-supervisor"
 URL_BIN_APPARMOR="${URL_RAW_BASE}/hassio-apparmor"
@@ -36,7 +50,7 @@ command -v jq > /dev/null 2>&1 || error "Please install jq first"
 command -v curl > /dev/null 2>&1 || error "Please install curl first"
 command -v avahi-daemon > /dev/null 2>&1 || error "Please install avahi first"
 command -v dbus-daemon > /dev/null 2>&1 || error "Please install dbus first"
-command -v nmcli > /dev/null 2>&1 || warn "No NetworkManager support on host."
+command -v nmcli > /dev/null 2>&1 || error "Please install NetworkManager first"
 command -v apparmor_parser > /dev/null 2>&1 || warn "No AppArmor support on host."
 
 
@@ -57,7 +71,7 @@ if [ ! -f "$DOCKER_DAEMON_CONFIG" ]; then
 EOF
   # Restart Docker service
   info "Restarting docker service"
-  systemctl restart "$DOCKER_SERVICE"
+  systemctl restart "$SERVICE_DOCKER"
 else
   STORRAGE_DRIVER=$(docker info -f "{{json .}}" | jq -r -e .Driver)
   LOGGING_DRIVER=$(docker info -f "{{json .}}" | jq -r -e .LoggingDriver)
@@ -75,6 +89,16 @@ if [[ "$(sysctl --values kernel.dmesg_restrict)" != "0" ]]; then
     echo 0 > /proc/sys/kernel/dmesg_restrict
     echo "kernel.dmesg_restrict=0" >> /etc/sysctl.conf
 fi
+
+# Create config for NetworkManager
+info "Creating NetworkManager configuration"
+rm -f /etc/network/interfaces
+curl -sL "${URL_NM_CONF}" > "${FILE_NM_CONF}"
+if [ ! -f "$FILE_NM_CONNECTION" ]; then
+    curl -sL "${URL_NM_CONNECTION}" > "${FILE_NM_CONNECTION}"
+fi
+info "Restarting NetworkManager"
+systemctl restart "${SERVICE_NM}"
 
 # Parse command line parameters
 while [[ $# -gt 0 ]]; do
@@ -197,7 +221,7 @@ curl -sL ${URL_SERVICE_HASSIO} > "${SYSCONFDIR}/systemd/system/hassio-supervisor
 
 sed -i "s,%%HASSIO_CONFIG%%,${CONFIG},g" "${PREFIX}"/sbin/hassio-supervisor
 sed -i -e "s,%%BINARY_DOCKER%%,${DOCKER_BINARY},g" \
-       -e "s,%%SERVICE_DOCKER%%,${DOCKER_SERVICE},g" \
+       -e "s,%%SERVICE_DOCKER%%,${SERVICE_DOCKER},g" \
        -e "s,%%BINARY_HASSIO%%,${PREFIX}/sbin/hassio-supervisor,g" \
        "${SYSCONFDIR}/systemd/system/hassio-supervisor.service"
 
@@ -214,7 +238,7 @@ if command -v apparmor_parser > /dev/null 2>&1; then
     curl -sL ${URL_APPARMOR_PROFILE} > "${DATA_SHARE}/apparmor/hassio-supervisor"
 
     sed -i "s,%%HASSIO_CONFIG%%,${CONFIG},g" "${PREFIX}/sbin/hassio-apparmor"
-    sed -i -e "s,%%DOCKER_SERVICE%%,${DOCKER_SERVICE},g" \
+    sed -i -e "s,%%SERVICE_DOCKER%%,${SERVICE_DOCKER},g" \
 	   -e "s,%%HASSIO_APPARMOR_BINARY%%,${PREFIX}/sbin/hassio-apparmor,g" \
 	   "${SYSCONFDIR}/systemd/system/hassio-apparmor.service"
 
@@ -233,3 +257,12 @@ systemctl start hassio-supervisor.service
 echo "[Info] Install cli 'ha'"
 curl -sL ${URL_HA} > "${PREFIX}/bin/ha"
 chmod a+x "${PREFIX}/bin/ha"
+
+info
+info "Home Assistant supervised is now installed"
+info "First setup will take some time, when it's ready you can reach it here:"
+info "http://${IP_ADDRESS}:8123"
+info
+warn "You may need to reboot the system to install Core"
+info "docker ps -a"
+info " to find out if Core is installed or not"
