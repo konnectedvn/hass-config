@@ -1,7 +1,7 @@
 {
   "channel": "stable",
   "dns": "9",
-  "homeassistant": "0.114.4",
+  "homeassistant": "0.115.2",
   "cli": "26",
   "audio": "17",
   "image": {
@@ -10,8 +10,10 @@
     "audio": "homeassistant/{arch}-hassio-audio",
     "cli": "homeassistant/{arch}-hassio-cli",
     "dns": "homeassistant/{arch}-hassio-dns",
-    "multicast": "homeassistant/{arch}-hassio-multicast"
+    "multicast": "homeassistant/{arch}-hassio-multicast",
+    "observer": "homeassistant/{arch}-hassio-observer"
   },
-  "supervisor": "242",
-  "multicast": "3"
+  "supervisor": "245",
+  "multicast": "3",
+  "observer": "3"
 }
