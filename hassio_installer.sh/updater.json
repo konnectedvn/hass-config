@@ -2,7 +2,7 @@
   "channel": "stable",
   "dns": "9",
   "homeassistant": "0.116.4",
-  "cli": "26",
+  "cli": "2020.10.0",
   "audio": "17",
   "image": {
     "homeassistant": "homeassistant/{machine}-homeassistant",
