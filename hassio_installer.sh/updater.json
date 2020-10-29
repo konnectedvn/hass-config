@@ -1,7 +1,7 @@
 {
   "channel": "stable",
-  "dns": "9",
-  "homeassistant": "0.116.4",
+  "dns": "2020.10.0",
+  "homeassistant": "0.117.0",
   "cli": "2020.10.0",
   "audio": "17",
   "image": {
@@ -13,7 +13,7 @@
     "multicast": "homeassistant/{arch}-hassio-multicast",
     "observer": "homeassistant/{arch}-hassio-observer"
   },
-  "supervisor": "249",
+  "supervisor": "2020.10.0",
   "multicast": "3",
   "observer": "2020.10.1"
 }
