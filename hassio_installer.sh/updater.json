@@ -1,7 +1,7 @@
 {
   "channel": "stable",
   "dns": "2020.11.0",
-  "homeassistant": "0.117.2",
+  "homeassistant": "0.117.3",
   "cli": "2020.10.1",
   "audio": "17",
   "image": {
