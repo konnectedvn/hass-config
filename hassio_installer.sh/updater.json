@@ -13,7 +13,7 @@
     "multicast": "homeassistant/{arch}-hassio-multicast",
     "observer": "homeassistant/{arch}-hassio-observer"
   },
-  "supervisor": "2021.01.4",
+  "supervisor": "2021.01.5",
   "multicast": "3",
   "observer": "2020.10.1"
 }
