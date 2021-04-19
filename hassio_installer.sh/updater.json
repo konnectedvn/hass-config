@@ -1,9 +1,9 @@
 {
   "channel": "stable",
-  "dns": "2020.12.0",
-  "homeassistant": "2021.1.5",
-  "cli": "2020.11.1",
-  "audio": "17",
+  "dns": "2021.01.0",
+  "homeassistant": "2021.4.5",
+  "cli": "2021.03.1",
+  "audio": "2021.02.1",
   "image": {
     "homeassistant": "homeassistant/{machine}-homeassistant",
     "supervisor": "homeassistant/{arch}-hassio-supervisor",
@@ -13,7 +13,7 @@
     "multicast": "homeassistant/{arch}-hassio-multicast",
     "observer": "homeassistant/{arch}-hassio-observer"
   },
-  "supervisor": "2021.01.7",
-  "multicast": "3",
+  "supervisor": "2021.04.0",
+  "multicast": "2021.04.0",
   "observer": "2020.10.1"
 }
