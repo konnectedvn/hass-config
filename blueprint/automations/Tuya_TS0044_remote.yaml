@@ -78,12 +78,12 @@ blueprint:
       default: []
       selector:
         action: {}
-  source_url: https://github.com/AramidX/ha-blueprint/blob/4de1fb2c9fe1d96a58f09c28b1d4a7760e0e9d2b/blueprints/tuya/tuya_4button_scene_switch_z2m.yaml
+  source_url: https://github.com/konnectedvn/hass-config/blob/master/blueprint/automations/Tuya_TS0044_remote.yaml
 mode: restart
 max_exceeded: silent
 trigger:
 - platform: mqtt
-  topic: !input "topic"
+  topic: !input "mqtt_topic"
 action:
 - variables:
     command: "{{ trigger.payload }}"
