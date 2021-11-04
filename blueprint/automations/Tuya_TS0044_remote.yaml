@@ -83,7 +83,7 @@ mode: restart
 max_exceeded: silent
 trigger:
 - platform: mqtt
-  topic: !input "mqtt_topic"
+  topic: !input mqtt_topic
 action:
 - variables:
     command: "{{ trigger.payload }}"
